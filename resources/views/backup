@@ -1,0 +1,59 @@
+{{-- karimun --}}
+    <div id="karimunjawa" class="category-content hidden">
+
+        <div class="relative w-[1901px] h-[800px] overflow-hidden shadow-md mb-10">
+
+            <img src="image/karimun.jpg" alt="" class="absolute inset-0 w-full h-full object-cover">
+
+            <div class="absolute inset-0 bg-black/30"></div>
+
+            <div class="relative z-10 flex flex-col items-center justify-center h-full p-6 text-white">
+
+                <h1 class="text-5xl text-shadow-lg/50 font-bold mb-6 text-center"
+                    style="font-family: 'Vast Shadow', cursive;">
+                    K A R I M U N J A W A
+                </h1>
+
+                <div
+                    class="flex flex-col md:flex-row items-center md:items-start text-black rounded-lg shadow-md p-4 w-250">
+
+                    <div class="flex-shrink-0">
+                        <img src="image/karimun.jpg" alt="" class="w-80 h-80 object-cover rounded-lg">
+                    </div>
+
+                    <div class="md:ml-4 mt-4 md:mt-0 text-left">
+                        <h1 class="text-4xl text-shadow-lg/50 font-bold text-white mt-20 mb-2"
+                            style="font-family: 'Roboto', sans-serif;">
+                            ARTIKEL KARIMUNJAWA
+                        </h1>
+                        <p class="text-xl text-shadow-lg/50 text-white leading-relaxed"
+                            style="font-family: 'Roboto', sans-serif;">
+                            ISI ARTIKEL
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{-- paket --}}
+        <div class="flex justify-center p-10">
+            <div class="grid grid-cols-2 gap-15">
+
+                <div
+                    class="flex flex-col items-center rounded-xl p-6 rounded-base shadow-xs md:flex-row w-[800px] border-b-4 border-amber-400">
+                    <img class="rounded-lg object-cover w-full rounded-base h-80 md:h-auto md:w-[400px] mb-4 md:mb-0"
+                        onclick="openPopup(this.src)" src="image/brosurkarimun.jpeg" alt="">
+                    <div class="flex flex-col justify-between md:p-4 leading-normal">
+                        <h5 class="ml-5 mb-2 text-2xl font-bold tracking-tight text-heading"
+                            style="font-family: 'Roboto', sans-serif;">Paket Karimunjawa 3 Hari 2 Malam</h5>
+                        <ul class="ml-5 mb-6 text-body">
+                            <li style="font-family: 'Roboto', sans-serif;">1. Kunjungan 3 pulau</li>
+                            <li style="font-family: 'Roboto', sans-serif;">2. Homestay, Hotel, Cottage</li>
+                            <li style="font-family: 'Roboto', sans-serif;">3. Makan Pagi, Makan Siang, Makan Malam</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
