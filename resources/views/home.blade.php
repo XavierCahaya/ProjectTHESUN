@@ -390,40 +390,22 @@
     <div id="default-carousel" class=" fade relative w-full md:hidden" data-carousel="slide">
         <!-- Carousel wrapper -->
         <div class="relative h-[500px] overflow-hidden rounded-base md:h-96">
-            <!-- Item 1 -->
+            @foreach($heroSliders as $index => $slider)
             <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                <img onclick="openPopup(this.src)" src="image/brosur.jpeg" class="block w-full h-full object-cover"
-                    alt="...">
+                <img onclick="openPopup(this.src)" src="{{ asset($slider->image_path) }}" 
+                     class="block w-full h-full object-cover"
+                     alt="{{ $slider->title }}">
             </div>
-            <!-- Item 2 -->
-            <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                <img onclick="openPopup(this.src)" src="image/brosur3.jpeg" class="block w-full h-full object-cover"
-                    alt="...">
-            </div>
-            <!-- Item 3 -->
-            <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                <img onclick="openPopup(this.src)" src="image/brosurchina.jpeg" class="block w-full h-full object-cover"
-                    alt="...">
-            </div>
-            <!-- Item 4 -->
-            <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                <img onclick="openPopup(this.src)" src="image/brosurkorea.jpeg" class="block w-full h-full object-cover"
-                    alt="...">
-            </div>
-
+            @endforeach
         </div>
         <!-- Slider indicators -->
         <div class="absolute z-30 flex -translate-x-1/2 bottom-5 left-1/2 space-x-3 rtl:space-x-reverse">
-            <button type="button" class="w-3 h-3 rounded-xl" aria-current="true" aria-label="Slide 1"
-                data-carousel-slide-to="0"></button>
-            <button type="button" class="w-3 h-3 rounded-xl" aria-current="false" aria-label="Slide 2"
-                data-carousel-slide-to="1"></button>
-            <button type="button" class="w-3 h-3 rounded-xl" aria-current="false" aria-label="Slide 3"
-                data-carousel-slide-to="2"></button>
-            <button type="button" class="w-3 h-3 rounded-xl" aria-current="false" aria-label="Slide 4"
-                data-carousel-slide-to="3"></button>
-            <button type="button" class="w-3 h-3 rounded-xl" aria-current="false" aria-label="Slide 5"
-                data-carousel-slide-to="4"></button>
+            @foreach($heroSliders as $index => $slider)
+            <button type="button" class="w-3 h-3 rounded-xl" 
+                    aria-current="{{ $index === 0 ? 'true' : 'false' }}" 
+                    aria-label="Slide {{ $index + 1 }}"
+                    data-carousel-slide-to="{{ $index }}"></button>
+            @endforeach
         </div>
         <!-- Slider controls -->
         <button type="button"
@@ -455,40 +437,31 @@
     </div>
 
     {{-- brosur 1 besar 4 kecil --}}
+    @php
+        $featuredSlider = $heroSliders->where('is_featured', true)->first();
+        $regularSliders = $heroSliders->where('is_featured', false)->take(4);
+    @endphp
+    
     <div class="h-160 desktop-brosur hidden md:block">
         <div class=" flex justify-center gap-10 brosur-container">
 
+            @if($featuredSlider)
             <div class="fade-left flex items-center justify-center h-200 w-[630px] relative overflow-hidden">
-                <img onclick="openPopup(this.src)" src="image/brosur.jpeg"
-                    class="absolute top-0 left-0 w-full h-full object-cover">
+                <img onclick="openPopup(this.src)" src="{{ asset($featuredSlider->image_path) }}"
+                     alt="{{ $featuredSlider->title }}"
+                     class="absolute top-0 left-0 w-full h-full object-cover">
             </div>
+            @endif
 
             <div class="grid grid-cols-2 gap-5 brosur-grid">
-
+                @foreach($regularSliders as $slider)
                 <div
                     class="fade-right mobile-img-size h-97 w-[290px] flex items-center justify-center relative overflow-hidden">
-                    <img onclick="openPopup(this.src)" src="image/brosur3.jpeg"
-                        class="absolute top-0 left-0 w-full h-full object-cover">
+                    <img onclick="openPopup(this.src)" src="{{ asset($slider->image_path) }}"
+                         alt="{{ $slider->title }}"
+                         class="absolute top-0 left-0 w-full h-full object-cover">
                 </div>
-
-                <div
-                    class="fade-right mobile-img-size h-97 w-[290px] flex items-center justify-center relative overflow-hidden">
-                    <img onclick="openPopup(this.src)" src="image/brosurchina.jpeg"
-                        class="absolute top-0 left-0 w-full h-full object-cover">
-                </div>
-
-                <div
-                    class="fade-right mobile-img-size h-97 w-[290px] flex items-center justify-center relative overflow-hidden">
-                    <img onclick="openPopup(this.src)" src="image/brosurkorea.jpeg"
-                        class="absolute top-0 left-0 w-full h-full object-cover">
-                </div>
-
-                <div
-                    class="fade-right mobile-img-size h-97 w-[290px] flex items-center justify-center relative overflow-hidden">
-                    <img onclick="openPopup(this.src)" src="image/brosurziarek.jpeg"
-                        class="absolute top-0 left-0 w-full h-full object-cover">
-                </div>
-
+                @endforeach
             </div>
 
         </div>
@@ -873,37 +846,14 @@
 
     <div class="fade slider-container">
         <div class="slider-track">
-            <img src="image/4.jpeg">
-            <img src="image/1.jpeg">
-            <img src="image/2.jpeg">
-            <img src="image/3.jpeg">
-            <img src="image/5.jpeg">
-            <img src="image/7.jpeg">
-            <img src="image/6.jpeg">
-            <img src="image/9.jpeg">
-            <img src="image/11.jpeg">
-            <img src="image/8.jpeg">
-            <img src="image/12.jpeg">
-            <img src="image/13.jpeg">
-            <img src="image/14.jpeg">
-            <img src="image/15.jpeg">
-            <img src="image/16.jpeg">
+            @foreach($galleryImages as $gallery)
+                <img src="{{ asset($gallery->image_path) }}" alt="{{ $gallery->title }}">
+            @endforeach
 
             <!-- Duplikasi untuk efek infinite -->
-            <img src="image/4.jpeg">
-            <img src="image/1.jpeg">
-            <img src="image/2.jpeg">
-            <img src="image/3.jpeg">
-            <img src="image/5.jpeg">
-            <img src="image/7.jpeg">
-            <img src="image/6.jpeg">
-            <img src="image/9.jpeg">
-            <img src="image/11.jpeg">
-            <img src="image/8.jpeg">
-            <img src="image/12.jpeg">
-            <img src="image/13.jpeg">
-            <img src="image/15.jpeg">
-            <img src="image/16.jpeg">
+            @foreach($galleryImages as $gallery)
+                <img src="{{ asset($gallery->image_path) }}" alt="{{ $gallery->title }}">
+            @endforeach
         </div>
     </div>
 
