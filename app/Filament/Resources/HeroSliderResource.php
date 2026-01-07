@@ -22,6 +22,7 @@ class HeroSliderResource extends Resource
     protected static ?string $navigationLabel = 'Hero Sliders';
 
     protected static ?string $navigationGroup = 'Content Management';
+    protected static ?int $navigationSort = 0;
 
     public static function form(Form $form): Form
     {
@@ -65,7 +66,10 @@ class HeroSliderResource extends Resource
                 Tables\Columns\ImageColumn::make('image_path')
                     ->label('Image')
                     ->square()
-                    ->size(80),
+                    ->size(80)
+                    ->getStateUsing(fn($record) => str_starts_with($record->image_path, 'image/')
+                        ? asset($record->image_path)
+                        : asset('storage/' . $record->image_path)),
 
                 Tables\Columns\TextColumn::make('title')
                     ->label('Title')

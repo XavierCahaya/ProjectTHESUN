@@ -107,9 +107,9 @@
             <!-- Background section with rotating images -->
             <div class="relative w-full h-[800px] overflow-hidden shadow-md mb-10">
                 @foreach($category->backgrounds as $bgIndex => $background)
-                    <img src="{{ str_starts_with($background->image_path, 'image/') ? asset($background->image_path) : asset('storage/' . $background->image_path) }}"
-                        alt="{{ $translation->name ?? $category->slug }}" class="category-bg {{ $bgIndex === 0 ? 'active' : '' }}"
-                        data-category="{{ $category->slug }}" data-bg-index="{{ $bgIndex }}">
+                    <img src="{{ asset('storage/' . $background->image_path) }}" alt="{{ $translation->name ?? $category->slug }}"
+                        class="category-bg {{ $bgIndex === 0 ? 'active' : '' }}" data-category="{{ $category->slug }}"
+                        data-bg-index="{{ $bgIndex }}">
                 @endforeach
 
                 <div class="absolute inset-0 bg-black/30"></div>
@@ -138,8 +138,7 @@
                         <div
                             class="fade flex flex-col items-center rounded-xl p-6 rounded-base shadow-xs md:flex-row w-full border-b-4 border-amber-400">
                             <img class="rounded-lg object-cover w-full rounded-base h-80 md:h-auto md:w-[400px] mb-4 md:mb-0"
-                                onclick="openPopup(this.src)"
-                                src="{{ str_starts_with($package->thumbnail, 'image/') ? asset($package->thumbnail) : asset('storage/' . $package->thumbnail) }}"
+                                onclick="openPopup(this.src)" src="{{ asset('storage/' . $package->thumbnail) }}"
                                 alt="{{ $packageTranslation->title ?? 'Package' }}">
 
                             <div class="flex flex-col justify-between md:p-4 leading-normal">

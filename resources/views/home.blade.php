@@ -392,7 +392,8 @@
         <div class="relative h-[500px] overflow-hidden rounded-base md:h-96">
             @foreach($heroSliders as $index => $slider)
             <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                <img onclick="openPopup(this.src)" src="{{ asset($slider->image_path) }}" 
+                <img onclick="openPopup(this.src)" 
+                     src="{{ str_starts_with($slider->image_path, 'image/') ? asset($slider->image_path) : asset('storage/' . $slider->image_path) }}" 
                      class="block w-full h-full object-cover"
                      alt="{{ $slider->title }}">
             </div>
@@ -447,7 +448,8 @@
 
             @if($featuredSlider)
             <div class="fade-left flex items-center justify-center h-200 w-[630px] relative overflow-hidden">
-                <img onclick="openPopup(this.src)" src="{{ asset($featuredSlider->image_path) }}"
+                <img onclick="openPopup(this.src)" 
+                     src="{{ str_starts_with($featuredSlider->image_path, 'image/') ? asset($featuredSlider->image_path) : asset('storage/' . $featuredSlider->image_path) }}"
                      alt="{{ $featuredSlider->title }}"
                      class="absolute top-0 left-0 w-full h-full object-cover">
             </div>
@@ -457,7 +459,8 @@
                 @foreach($regularSliders as $slider)
                 <div
                     class="fade-right mobile-img-size h-97 w-[290px] flex items-center justify-center relative overflow-hidden">
-                    <img onclick="openPopup(this.src)" src="{{ asset($slider->image_path) }}"
+                    <img onclick="openPopup(this.src)" 
+                         src="{{ str_starts_with($slider->image_path, 'image/') ? asset($slider->image_path) : asset('storage/' . $slider->image_path) }}"
                          alt="{{ $slider->title }}"
                          class="absolute top-0 left-0 w-full h-full object-cover">
                 </div>
@@ -604,45 +607,20 @@
     <div class="flex justify-center hidden md:block">
         <div class="grid grid-cols-2 md:grid-cols-4 gap-10 p-10">
 
-            <!-- Item -->
-            <div class="fade-left relative overflow-hidden group">
-                <img onclick="openPopup(this.src)" src="image/brosurdieng.jpeg"
-                    class=" w-80 h-100 object-cover rounded-lg shadow-md">
-                <h1
-                    class="mt-3 text-center text-lg font-semibold text-black opacity-0 transition-opacity duration-500 group-hover:opacity-100">
-                    {{ __('home.domestik1') }}
-                </h1>
-            </div>
-
-            <!-- Item -->
-            <div class="fade-left relative overflow-hidden group">
-                <img onclick="openPopup(this.src)" src="image/brosurlasem.jpeg"
-                    class="w-80 h-100 object-cover rounded-lg shadow-md">
-                <h1
-                    class="mt-3 text-center text-lg font-semibold text-black opacity-0 transition-opacity duration-500 group-hover:opacity-100">
-                    {{ __('home.domestik2') }}
-                </h1>
-            </div>
-
-            <!-- Item -->
-            <div class="fade-right relative overflow-hidden group">
-                <img onclick="openPopup(this.src)" src="image/brosurkarimun.jpeg"
-                    class="fade w-80 h-100 object-cover rounded-lg shadow-md">
-                <h1
-                    class="mt-3 text-center text-lg font-semibold text-black opacity-0 transition-opacity duration-500 group-hover:opacity-100">
-                    {{ __('home.domestik3') }}
-                </h1>
-            </div>
-
-            <!-- Item -->
-            <div class="fade-right relative overflow-hidden group">
-                <img onclick="openPopup(this.src)" src="image/brosurmagelang.jpeg"
-                    class="fade w-80 h-100 object-cover rounded-lg shadow-md">
-                <h1
-                    class="mt-3 text-center text-lg font-semibold text-black opacity-0 transition-opacity duration-500 group-hover:opacity-100">
-                    {{ __('home.domestik4') }}
-                </h1>
-            </div>
+            @foreach($domesticPackages as $index => $package)
+                @php
+                    $translation = $package->translations->first();
+                @endphp
+                <!-- Item -->
+                <div class="{{ $index < 2 ? 'fade-left' : 'fade-right' }} relative overflow-hidden group">
+                    <img onclick="openPopup(this.src)" 
+                         src="{{ str_starts_with($package->thumbnail, 'image/') ? asset($package->thumbnail) : asset('storage/' . $package->thumbnail) }}"
+                         class="w-80 h-100 object-cover rounded-lg shadow-md">
+                    <h1 class="mt-3 text-center text-lg font-semibold text-black opacity-0 transition-opacity duration-500 group-hover:opacity-100">
+                        {{ $translation->title ?? 'Package' }}
+                    </h1>
+                </div>
+            @endforeach
 
         </div>
     </div>
@@ -734,44 +712,20 @@
     <div class="flex justify-center hidden md:block">
         <div class="grid grid-cols-2 md:grid-cols-4 gap-10 p-10">
 
-            <!-- Item -->
-            <div class="fade-left relative overflow-hidden group">
-                <img onclick="openPopup(this.src)" src="image/brosurjepang.jpeg"
-                    class="fade w-80 h-100 object-cover rounded-lg shadow-md">
-                <h1
-                    class="mt-3 text-center text-lg font-semibold text-black opacity-0 transition-opacity duration-500 group-hover:opacity-100">
-                    {{ __('home.musimsalju1') }}
-                </h1>
-            </div>
-
-            <!-- Item -->
-            <div class="fade-left relative overflow-hidden group">
-                <img onclick="openPopup(this.src)" src="image/brosurjepang2.jpeg"
-                    class="fade w-80 h-100 object-cover rounded-lg shadow-md">
-                <h1
-                    class="mt-3 text-center text-lg font-semibold text-black opacity-0 transition-opacity duration-500 group-hover:opacity-100">
-                    {{ __('home.musimsalju2') }}
-                </h1>
-            </div>
-
-            <!-- Item -->
-            <div class="fade-right relative overflow-hidden group">
-                <img onclick="openPopup(this.src)" src="image/brosurvietnam.jpeg"
-                    class="fade w-80 h-100 object-cover rounded-lg shadow-md">
-                <h1
-                    class="mt-3 text-center text-lg font-semibold text-black opacity-0 transition-opacity duration-500 group-hover:opacity-100">
-                    {{ __('home.vietnam1') }}
-                </h1>
-            </div>
-
-            <div class="fade-right relative overflow-hidden group">
-                <img onclick="openPopup(this.src)" src="image/brosurvietnam2.jpeg"
-                    class="fade w-80 h-100 object-cover rounded-lg shadow-md">
-                <h1
-                    class="mt-3 text-center text-lg font-semibold text-black opacity-0 transition-opacity duration-500 group-hover:opacity-100">
-                    {{ __('home.vietnam2') }}
-                </h1>
-            </div>
+            @foreach($internationalPackages as $index => $package)
+                @php
+                    $translation = $package->translations->first();
+                @endphp
+                <!-- Item -->
+                <div class="{{ $index < 2 ? 'fade-left' : 'fade-right' }} relative overflow-hidden group">
+                    <img onclick="openPopup(this.src)" 
+                         src="{{ str_starts_with($package->thumbnail, 'image/') ? asset($package->thumbnail) : asset('storage/' . $package->thumbnail) }}"
+                         class="fade w-80 h-100 object-cover rounded-lg shadow-md">
+                    <h1 class="mt-3 text-center text-lg font-semibold text-black opacity-0 transition-opacity duration-500 group-hover:opacity-100">
+                        {{ $translation->title ?? 'Package' }}
+                    </h1>
+                </div>
+            @endforeach
 
         </div>
     </div>
@@ -847,12 +801,14 @@
     <div class="fade slider-container">
         <div class="slider-track">
             @foreach($galleryImages as $gallery)
-                <img src="{{ asset($gallery->image_path) }}" alt="{{ $gallery->title }}">
+                <img src="{{ str_starts_with($gallery->image_path, 'image/') ? asset($gallery->image_path) : asset('storage/' . $gallery->image_path) }}" 
+                     alt="{{ $gallery->title }}">
             @endforeach
 
             <!-- Duplikasi untuk efek infinite -->
             @foreach($galleryImages as $gallery)
-                <img src="{{ asset($gallery->image_path) }}" alt="{{ $gallery->title }}">
+                <img src="{{ str_starts_with($gallery->image_path, 'image/') ? asset($gallery->image_path) : asset('storage/' . $gallery->image_path) }}" 
+                     alt="{{ $gallery->title }}">
             @endforeach
         </div>
     </div>

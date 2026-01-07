@@ -22,7 +22,7 @@ class GalleryImageResource extends Resource
     protected static ?string $navigationLabel = 'Gallery Images';
 
     protected static ?string $navigationGroup = 'Content Management';
-
+    protected static ?int $navigationSort = 1;
     public static function form(Form $form): Form
     {
         return $form
@@ -60,7 +60,10 @@ class GalleryImageResource extends Resource
                 Tables\Columns\ImageColumn::make('image_path')
                     ->label('Image')
                     ->square()
-                    ->size(80),
+                    ->size(80)
+                    ->getStateUsing(fn($record) => str_starts_with($record->image_path, 'image/')
+                        ? asset($record->image_path)
+                        : asset('storage/' . $record->image_path)),
 
                 Tables\Columns\TextColumn::make('title')
                     ->label('Title')
