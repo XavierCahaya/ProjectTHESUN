@@ -62,7 +62,10 @@ class CategoryResource extends Resource
                             ->schema([
                                 Forms\Components\FileUpload::make('image_path')
                                     ->image()
+                                    ->disk('public')
                                     ->directory('category-backgrounds')
+                                    ->visibility('public')
+                                    ->maxSize(5120)
                                     ->required(),
                                 Forms\Components\Toggle::make('is_active')
                                     ->default(true),

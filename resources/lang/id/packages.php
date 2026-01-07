@@ -1,6 +1,8 @@
 <?php
 
 return [
+    'hari' => 'H',
+    'malam' => 'M',
     'negoro' => '<div class="swiper-slide category-box" style="font-family: \'Roboto\', sans-serif;"
                         onclick="showCategory(\'jawatengah\')">Jawa Tengah</div>
                     <div class="swiper-slide category-box" style="font-family: \'Roboto\', sans-serif;"
@@ -35,7 +37,7 @@ return [
     'geser' => 'Geser Ke Kanan atau Ke Kiri Untuk Melihat Kategori Yang Lain',
 
     'paketsemarang' => 'Paket Golf : Semarang',
-    'semaranginfo' =>   '<ul class="ml-5 mb-6 text-body>
+    'semaranginfo' => '<ul class="ml-5 mb-6 text-body>
                             <li style="font-family: \'Roboto\', sans-serif;">1. 3 Hari 2 Malam</li>
                             <li style="font-family: \'Roboto\', sans-serif;">2. Minimal 4  Peserta</li>
                         </ul>',
@@ -47,10 +49,10 @@ return [
                         <li style="font-family: \'Roboto\', sans-serif;">3. Air mineral, Makan, Biaya Tol</li>
                         <li style="font-family: \'Roboto\', sans-serif;">4. Perahu Telaga Menjer</li>
                     </ul>',
-    
+
 
     'paketkarimunjawa' => 'Paket Karimunjawa 3 Hari 2 Malam',
-    'karimunjawainfo' =>    '<ul class="ml-5 mb-6 text-body">
+    'karimunjawainfo' => '<ul class="ml-5 mb-6 text-body">
                                 <li style="font-family: \'Roboto\', sans-serif;">1. Kunjungan 3 pulau</li>
                                 <li style="font-family: \'Roboto\', sans-serif;">2. Homestay, Hotel, Cottage</li>
                                 <li style="font-family: \'Roboto\', sans-serif;">3. Makan Pagi, Makan Siang, Makan Malam</li>

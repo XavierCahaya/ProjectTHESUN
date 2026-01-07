@@ -18,7 +18,10 @@ class PackagesController extends Controller
                 'packages' => fn($q) => $q->where('is_active', true)
                     ->orderBy('order')
                     ->orderBy('id')
-                    ->with(['translations' => fn($q2) => $q2->where('locale', $locale)])
+                    ->with([
+                        'translations' => fn($q2) => $q2->where('locale', $locale),
+                        'services.translations' => fn($q3) => $q3->where('locale', $locale)
+                    ])
             ])
             ->orderBy('order')
             ->get();

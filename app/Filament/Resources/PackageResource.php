@@ -34,7 +34,14 @@ class PackageResource extends Resource
                             ->maxLength(255),
                         Forms\Components\FileUpload::make('thumbnail')
                             ->image()
+                            ->disk('public')
                             ->directory('package-thumbnails')
+                            ->visibility('public')
+                            ->imageResizeMode('cover')
+                            ->imageCropAspectRatio('16:9')
+                            ->imageResizeTargetWidth('1920')
+                            ->imageResizeTargetHeight('1080')
+                            ->maxSize(5120)
                             ->required(),
                         Forms\Components\TextInput::make('price')
                             ->numeric()
@@ -87,7 +94,10 @@ class PackageResource extends Resource
                                     ->schema([
                                         Forms\Components\FileUpload::make('image_path')
                                             ->image()
+                                            ->disk('public')
                                             ->directory('package-images')
+                                            ->visibility('public')
+                                            ->maxSize(5120)
                                             ->required(),
                                         Forms\Components\TextInput::make('order')
                                             ->numeric()

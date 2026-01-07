@@ -135,35 +135,96 @@
                             $packageTranslation = $package->translations->first();
                         @endphp
 
-                        <div
-                            class="fade flex flex-col items-center rounded-xl p-6 rounded-base shadow-xs md:flex-row w-full border-b-4 border-amber-400">
-                            <img class="rounded-lg object-cover w-full rounded-base h-80 md:h-auto md:w-[400px] mb-4 md:mb-0"
+                        <div class="fade flex gap-6 rounded-xl p-6 shadow-lg border border-gray-200 bg-white">
+                            <!-- Package Image -->
+                            <img class="rounded-lg object-cover w-[375px] h-full mb-4 cursor-pointer hover:opacity-90 transition"
                                 onclick="openPopup(this.src)"
                                 src="{{ str_starts_with($package->thumbnail, 'image/') ? asset($package->thumbnail) : asset('storage/' . $package->thumbnail) }}"
                                 alt="{{ $packageTranslation->title ?? 'Package' }}">
 
-                            <div class="flex flex-col justify-between md:p-4 leading-normal">
-                                <h5 class="ml-5 mb-2 text-2xl font-bold tracking-tight text-heading"
+                            <!-- Package Info -->
+                            <div class="flex flex-col space-y-3">
+                                <!-- Title -->
+                                <h5 class="text-2xl font-bold tracking-tight text-gray-900"
                                     style="font-family: 'Roboto', sans-serif;">
                                     {{ $packageTranslation->title ?? 'Untitled Package' }}
                                 </h5>
 
+                                <!-- Duration & Price -->
+                                <div class="flex items-center justify-between">
+                                    @if($package->duration_days)
+                                        <span class="px-3 py-1 bg-amber-100 text-amber-700 rounded-full text-sm font-semibold">
+                                            {{ $package->duration_days }}{{ __('packages.hari') }}{{ $package->duration_nights ? $package->duration_nights . __('packages.malam') : '' }}
+                                        </span>
+                                    @endif
+
+                                    @if($package->price)
+                                        <span class="text-xl font-bold text-green-600">
+                                            Rp {{ number_format($package->price, 0, ',', '.') }}
+                                        </span>
+                                    @endif
+                                </div>
+
+                                <!-- Description -->
                                 @if($packageTranslation && $packageTranslation->description)
-                                    <p class="ml-5 text-base text-gray-700">
+                                    <p class="text-gray-700 text-base leading-relaxed">
                                         {{ $packageTranslation->description }}
                                     </p>
                                 @endif
 
-                                @if($package->duration_days)
-                                    <p class="ml-5 mt-2 text-sm font-semibold text-amber-600">
-                                        {{ $package->duration_days }}D{{ $package->duration_nights ? $package->duration_nights . 'N' : '' }}
-                                    </p>
+                                <!-- Itinerary -->
+                                @if($packageTranslation && $packageTranslation->itinerary)
+                                    <div class="border-t pt-3">
+                                        <h6 class="font-semibold text-gray-900 mb-2 flex items-center">
+                                            <svg class="w-5 h-5 mr-2 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                                            </svg>
+                                            {{ $locale === 'id' ? 'Itinerary' : 'Itinerary' }}
+                                        </h6>
+                                        <div class="text-gray-600 text-sm prose prose-sm max-w-none">
+                                            {!! nl2br(e($packageTranslation->itinerary)) !!}
+                                        </div>
+                                    </div>
                                 @endif
 
-                                @if($package->price)
-                                    <p class="ml-5 mt-1 text-lg font-bold text-green-600">
-                                        Rp {{ number_format($package->price, 0, ',', '.') }}
-                                    </p>
+                                <!-- Services Included -->
+                                @if($package->services && $package->services->count() > 0)
+                                    <div class="border-t pt-3">
+                                        <h6 class="font-semibold text-gray-900 mb-2 flex items-center">
+                                            <svg class="w-5 h-5 mr-2 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                            </svg>
+                                            {{ $locale === 'id' ? 'Layanan Termasuk' : 'Services Included' }}
+                                        </h6>
+                                        <div class="grid grid-cols-2 gap-2">
+                                            @foreach($package->services as $service)
+                                                @php
+                                                    $serviceTranslation = $service->translations->first();
+                                                @endphp
+                                                <div class="flex items-center text-sm text-gray-700">
+                                                    <svg class="w-4 h-4 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                                    </svg>
+                                                    {{ $serviceTranslation->name ?? $service->slug }}
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                @endif
+
+                                <!-- Terms & Conditions -->
+                                @if($packageTranslation && $packageTranslation->terms_conditions)
+                                    <div class="border-t pt-3">
+                                        <h6 class="font-semibold text-gray-900 mb-2 flex items-center">
+                                            <svg class="w-5 h-5 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                            </svg>
+                                            {{ $locale === 'id' ? 'Syarat & Ketentuan' : 'Terms & Conditions' }}
+                                        </h6>
+                                        <div class="text-gray-600 text-xs">
+                                            {!! nl2br(e($packageTranslation->terms_conditions)) !!}
+                                        </div>
+                                    </div>
                                 @endif
                             </div>
                         </div>
