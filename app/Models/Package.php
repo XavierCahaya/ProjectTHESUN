@@ -39,11 +39,6 @@ class Package extends Model
         return $this->hasMany(PackageTranslation::class);
     }
 
-    public function images()
-    {
-        return $this->hasMany(PackageImage::class)->orderBy('order');
-    }
-
     public function services()
     {
         return $this->belongsToMany(Service::class, 'package_service')

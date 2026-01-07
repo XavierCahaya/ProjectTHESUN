@@ -28,10 +28,6 @@ class PackageResource extends Resource
                         Forms\Components\Select::make('category_id')
                             ->relationship('category', 'slug')
                             ->required(),
-                        Forms\Components\TextInput::make('slug')
-                            ->required()
-                            ->unique(ignoreRecord: true)
-                            ->maxLength(255),
                         Forms\Components\FileUpload::make('thumbnail')
                             ->image()
                             ->disk('public')
@@ -62,63 +58,53 @@ class PackageResource extends Resource
                     ])
                     ->columns(2),
 
-                Forms\Components\Tabs::make('Content')
-                    ->tabs([
-                        Forms\Components\Tabs\Tab::make('Translations')
-                            ->schema([
-                                Forms\Components\Repeater::make('translations')
-                                    ->relationship()
-                                    ->schema([
-                                        Forms\Components\Select::make('locale')
-                                            ->options([
-                                                'id' => 'Indonesian',
-                                                'en' => 'English',
-                                            ])
-                                            ->required(),
-                                        Forms\Components\TextInput::make('title')
-                                            ->required(),
-                                        Forms\Components\Textarea::make('description')
-                                            ->rows(3),
-                                        Forms\Components\RichEditor::make('itinerary'),
-                                        Forms\Components\Textarea::make('terms_conditions')
-                                            ->rows(3),
-                                    ])
-                                    ->columns(1)
-                                    ->defaultItems(2),
-                            ]),
+                Forms\Components\Section::make('Indonesian Translation')
+                    ->schema([
+                        Forms\Components\TextInput::make('id_title')
+                            ->label('Title (Indonesian)')
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\Textarea::make('id_description')
+                            ->label('Description (Indonesian)')
+                            ->rows(3),
+                        Forms\Components\RichEditor::make('id_itinerary')
+                            ->label('Itinerary (Indonesian)'),
+                        Forms\Components\Textarea::make('id_terms_conditions')
+                            ->label('Terms & Conditions (Indonesian)')
+                            ->rows(3),
+                    ])
+                    ->columns(1),
 
-                        Forms\Components\Tabs\Tab::make('Images')
-                            ->schema([
-                                Forms\Components\Repeater::make('images')
-                                    ->relationship()
-                                    ->schema([
-                                        Forms\Components\FileUpload::make('image_path')
-                                            ->image()
-                                            ->disk('public')
-                                            ->directory('package-images')
-                                            ->visibility('public')
-                                            ->maxSize(5120)
-                                            ->required(),
-                                        Forms\Components\TextInput::make('order')
-                                            ->numeric()
-                                            ->default(0),
-                                    ])
-                                    ->columns(2),
-                            ]),
+                Forms\Components\Section::make('English Translation')
+                    ->schema([
+                        Forms\Components\TextInput::make('en_title')
+                            ->label('Title (English)')
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\Textarea::make('en_description')
+                            ->label('Description (English)')
+                            ->rows(3),
+                        Forms\Components\RichEditor::make('en_itinerary')
+                            ->label('Itinerary (English)'),
+                        Forms\Components\Textarea::make('en_terms_conditions')
+                            ->label('Terms & Conditions (English)')
+                            ->rows(3),
+                    ])
+                    ->columns(1),
 
-                        Forms\Components\Tabs\Tab::make('Services')
-                            ->schema([
-                                Forms\Components\CheckboxList::make('services')
-                                    ->relationship('services', 'slug')
-                                    ->options(function () {
-                                        return \App\Models\Service::with('translations')
-                                            ->get()
-                                            ->mapWithKeys(fn($service) => [
-                                                $service->id => $service->translate(app()->getLocale())['name'] ?? $service->slug
-                                            ]);
-                                    }),
-                            ]),
-                    ]),
+                Forms\Components\Section::make('Services')
+                    ->schema([
+                        Forms\Components\CheckboxList::make('services')
+                            ->relationship('services', 'slug')
+                            ->options(function () {
+                                return \App\Models\Service::with('translations')
+                                    ->get()
+                                    ->mapWithKeys(fn($service) => [
+                                        $service->id => $service->translate(app()->getLocale())['name'] ?? $service->slug
+                                    ]);
+                            }),
+                    ])
+                    ->columns(1),
             ]);
     }
 

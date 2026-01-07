@@ -56,6 +56,47 @@
         .category-bg.active {
             opacity: 1;
         }
+
+        /* RichEditor content styling */
+        .rich-content p {
+            margin-bottom: 0.75rem;
+        }
+
+        .rich-content ol {
+            list-style-type: decimal;
+            margin-left: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .rich-content ul {
+            list-style-type: disc;
+            margin-left: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .rich-content li {
+            margin-bottom: 0.375rem;
+            padding-left: 0.25rem;
+        }
+
+        .rich-content strong {
+            font-weight: 600;
+        }
+
+        .rich-content em {
+            font-style: italic;
+        }
+
+        .rich-content h1, .rich-content h2, .rich-content h3, .rich-content h4 {
+            font-weight: 600;
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .rich-content h1 { font-size: 1.5rem; }
+        .rich-content h2 { font-size: 1.25rem; }
+        .rich-content h3 { font-size: 1.125rem; }
+        .rich-content h4 { font-size: 1rem; }
     </style>
 
     <div class="flex justify-center relative overflow-hidden p-2">
@@ -182,7 +223,7 @@
                                             {{ $locale === 'id' ? 'Itinerary' : 'Itinerary' }}
                                         </h6>
                                         <div class="text-gray-600 text-sm prose prose-sm max-w-none">
-                                            {!! nl2br(e($packageTranslation->itinerary)) !!}
+                                            {!! $packageTranslation->itinerary !!}
                                         </div>
                                     </div>
                                 @endif
@@ -222,7 +263,7 @@
                                             {{ $locale === 'id' ? 'Syarat & Ketentuan' : 'Terms & Conditions' }}
                                         </h6>
                                         <div class="text-gray-600 text-xs">
-                                            {!! nl2br(e($packageTranslation->terms_conditions)) !!}
+                                            {!! $packageTranslation->terms_conditions !!}
                                         </div>
                                     </div>
                                 @endif
@@ -341,6 +382,8 @@
             slidesPerView: 'auto',
             spaceBetween: 10,
             freeMode: true,
+            centeredSlides: false,
+            centerInsufficientSlides: true,
         });
     </script>
 @endsection
