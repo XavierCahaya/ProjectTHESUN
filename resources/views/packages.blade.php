@@ -170,7 +170,7 @@
                 <div class="absolute inset-0 bg-black/30"></div>
 
                 <div class="relative z-10 flex flex-col items-center justify-center h-full p-6 text-white">
-                    <h1 class="text-5xl text-shadow-lg/50 font-bold mb-6 text-center"
+                    <h1 class="text-3xl md:text-5xl text-shadow-lg/50 font-bold mb-6 text-center"
                         style="font-family: 'Vast Shadow', cursive;">
                         {{ $translation->name ?? $category->slug }}
                     </h1>
@@ -191,7 +191,7 @@
                         @endphp
 
                         <div
-                            class="fade flex gap-6 rounded-xl p-6 shadow-[0_-15px_30px_-10px_rgba(0,0,0,0.1)] border border-gray-300 border-b-4 border-b-amber-400 bg-white">
+                            class="fade flex gap-6 rounded-xl p-6 shadow-[0_-15px_30px_-10px_rgba(0,0,0,0.1)] border border-gray-300 border-b-4 border-b-amber-400 bg-white grid grid-cols-1 md:grid-cols-2">
                             <!-- Package Image -->
                             <img class="rounded-lg object-cover w-[375px] h-full mb-4 cursor-pointer hover:opacity-90 transition border-1 border-gray-300   "
                                 onclick="openPopup(this.src)"
