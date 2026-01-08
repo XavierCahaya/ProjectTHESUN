@@ -19,31 +19,44 @@ class ServiceResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    protected static ?string $navigationLabel = 'Layanan';
+
+    protected static ?string $modelLabel = 'Layanan';
+
+    protected static ?string $pluralModelLabel = 'Layanan';
+    protected static ?string $navigationGroup = 'Paket';
+    protected static ?int $navigationSort = 1;
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('slug')
+                    ->label('Slug')
                     ->required()
                     ->unique(ignoreRecord: true)
                     ->maxLength(255),
                 Forms\Components\TextInput::make('icon')
+                    ->label('Ikon')
                     ->maxLength(255),
                 Forms\Components\Toggle::make('is_active')
+                    ->label('Aktif')
                     ->default(true),
 
-                Forms\Components\Section::make('Translations')
+                Forms\Components\Section::make('Terjemahan')
                     ->schema([
                         Forms\Components\Repeater::make('translations')
                             ->relationship()
                             ->schema([
                                 Forms\Components\Select::make('locale')
+                                    ->label('Bahasa')
                                     ->options([
-                                        'id' => 'Indonesian',
-                                        'en' => 'English',
+                                        'id' => 'Indonesia',
+                                        'en' => 'Inggris',
                                     ])
                                     ->required(),
                                 Forms\Components\TextInput::make('name')
+                                    ->label('Nama')
                                     ->required(),
                             ])
                             ->columns(2)
@@ -57,11 +70,13 @@ class ServiceResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('slug')
+                    ->label('Slug')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('translations.name')
-                    ->label('Name')
+                    ->label('Nama')
                     ->searchable(),
                 Tables\Columns\IconColumn::make('is_active')
+                    ->label('Aktif')
                     ->boolean(),
             ])
             ->filters([

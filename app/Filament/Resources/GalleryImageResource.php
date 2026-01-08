@@ -19,21 +19,25 @@ class GalleryImageResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-photo';
 
-    protected static ?string $navigationLabel = 'Gallery Images';
+    protected static ?string $navigationLabel = 'Galeri Foto';
 
-    protected static ?string $navigationGroup = 'Content Management';
+    protected static ?string $modelLabel = 'Foto';
+
+    protected static ?string $pluralModelLabel = 'Galeri Foto';
+
+    protected static ?string $navigationGroup = 'Konten';
     protected static ?int $navigationSort = 1;
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('title')
-                    ->label('Title / Alt Text')
+                    ->label('Judul / Alt Text')
                     ->maxLength(255)
-                    ->placeholder('Optional title or alt text'),
+                    ->placeholder('Judul atau alt text opsional'),
 
                 Forms\Components\FileUpload::make('image_path')
-                    ->label('Image')
+                    ->label('Gambar')
                     ->image()
                     ->disk('public')
                     ->directory('gallery')
@@ -44,14 +48,14 @@ class GalleryImageResource extends Resource
                     ->columnSpanFull(),
 
                 Forms\Components\Toggle::make('is_active')
-                    ->label('Active')
+                    ->label('Aktif')
                     ->default(true),
 
                 Forms\Components\TextInput::make('order')
-                    ->label('Order')
+                    ->label('Urutan')
                     ->numeric()
                     ->default(0)
-                    ->helperText('Lower numbers appear first in slider'),
+                    ->helperText('Nomor lebih kecil muncul lebih dulu di slider'),
             ]);
     }
 
@@ -60,7 +64,7 @@ class GalleryImageResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\ImageColumn::make('image_path')
-                    ->label('Image')
+                    ->label('Gambar')
                     ->square()
                     ->size(80)
                     ->getStateUsing(fn($record) => str_starts_with($record->image_path, 'image/')
@@ -68,21 +72,21 @@ class GalleryImageResource extends Resource
                         : asset('storage/' . $record->image_path)),
 
                 Tables\Columns\TextColumn::make('title')
-                    ->label('Title')
+                    ->label('Judul')
                     ->searchable()
                     ->sortable()
-                    ->placeholder('No title'),
+                    ->placeholder('Tidak ada judul'),
 
                 Tables\Columns\ToggleColumn::make('is_active')
-                    ->label('Active')
+                    ->label('Aktif')
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('order')
-                    ->label('Order')
+                    ->label('Urutan')
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('created_at')
-                    ->label('Created')
+                    ->label('Dibuat')
                     ->dateTime('d M Y')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -90,7 +94,7 @@ class GalleryImageResource extends Resource
             ->defaultSort('order', 'asc')
             ->filters([
                 Tables\Filters\TernaryFilter::make('is_active')
-                    ->label('Active Only'),
+                    ->label('Hanya yang Aktif'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

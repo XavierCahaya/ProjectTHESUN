@@ -48,4 +48,9 @@ class CreatePackage extends CreateRecord
             'terms_conditions' => $data['en_terms_conditions'] ?? null,
         ]);
     }
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }

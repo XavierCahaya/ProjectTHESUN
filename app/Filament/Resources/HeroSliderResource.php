@@ -19,9 +19,13 @@ class HeroSliderResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-photo';
 
-    protected static ?string $navigationLabel = 'Hero Sliders';
+    protected static ?string $navigationLabel = 'Foto Utama';
 
-    protected static ?string $navigationGroup = 'Content Management';
+    protected static ?string $modelLabel = 'Foto';
+
+    protected static ?string $pluralModelLabel = 'Foto Utama';
+
+    protected static ?string $navigationGroup = 'Konten';
     protected static ?int $navigationSort = 0;
 
     public static function form(Form $form): Form
@@ -29,12 +33,12 @@ class HeroSliderResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('title')
-                    ->label('Title / Caption')
+                    ->label('Judul / Caption')
                     ->maxLength(255)
-                    ->placeholder('Optional title or caption'),
+                    ->placeholder('Judul atau caption opsional'),
 
                 Forms\Components\FileUpload::make('image_path')
-                    ->label('Image')
+                    ->label('Gambar')
                     ->image()
                     ->disk('public')
                     ->directory('hero-sliders')
@@ -45,19 +49,19 @@ class HeroSliderResource extends Resource
                     ->columnSpanFull(),
 
                 Forms\Components\Toggle::make('is_featured')
-                    ->label('Featured (Main Image)')
-                    ->helperText('Only 1 image should be featured at a time')
+                    ->label('Unggulan (Gambar Utama)')
+                    ->helperText('Hanya 1 gambar yang harus unggulan')
                     ->default(false),
 
                 Forms\Components\Toggle::make('is_active')
-                    ->label('Active')
+                    ->label('Aktif')
                     ->default(true),
 
                 Forms\Components\TextInput::make('order')
-                    ->label('Order')
+                    ->label('Urutan')
                     ->numeric()
                     ->default(0)
-                    ->helperText('Lower numbers appear first'),
+                    ->helperText('Nomor lebih kecil muncul lebih dulu'),
             ]);
     }
 
@@ -66,7 +70,7 @@ class HeroSliderResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\ImageColumn::make('image_path')
-                    ->label('Image')
+                    ->label('Gambar')
                     ->square()
                     ->size(80)
                     ->getStateUsing(fn($record) => str_starts_with($record->image_path, 'image/')
@@ -74,26 +78,26 @@ class HeroSliderResource extends Resource
                         : asset('storage/' . $record->image_path)),
 
                 Tables\Columns\TextColumn::make('title')
-                    ->label('Title')
+                    ->label('Judul')
                     ->searchable()
                     ->sortable()
-                    ->placeholder('No title'),
+                    ->placeholder('Tidak ada judul'),
 
                 Tables\Columns\IconColumn::make('is_featured')
-                    ->label('Featured')
+                    ->label('Unggulan')
                     ->boolean()
                     ->sortable(),
 
                 Tables\Columns\ToggleColumn::make('is_active')
-                    ->label('Active')
+                    ->label('Aktif')
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('order')
-                    ->label('Order')
+                    ->label('Urutan')
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('created_at')
-                    ->label('Created')
+                    ->label('Dibuat')
                     ->dateTime('d M Y')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

@@ -19,48 +19,64 @@ class CategoryResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    protected static ?string $navigationLabel = 'Kategori';
+
+    protected static ?string $modelLabel = 'Kategori';
+
+    protected static ?string $pluralModelLabel = 'Kategori';
+    protected static ?string $navigationGroup = 'Paket';
+    protected static ?int $navigationSort = 2;
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('slug')
+                    ->label('Slug')
                     ->required()
                     ->unique(ignoreRecord: true)
                     ->maxLength(255),
                 Forms\Components\TextInput::make('icon')
+                    ->label('Ikon')
                     ->maxLength(255),
                 Forms\Components\Toggle::make('is_active')
+                    ->label('Aktif')
                     ->default(true),
                 Forms\Components\TextInput::make('order')
+                    ->label('Urutan')
                     ->numeric()
                     ->default(0),
 
-                Forms\Components\Section::make('Translations')
+                Forms\Components\Section::make('Terjemahan')
                     ->schema([
                         Forms\Components\Repeater::make('translations')
                             ->relationship()
                             ->schema([
                                 Forms\Components\Select::make('locale')
+                                    ->label('Bahasa')
                                     ->options([
-                                        'id' => 'Indonesian',
-                                        'en' => 'English',
+                                        'id' => 'Indonesia',
+                                        'en' => 'Inggris',
                                     ])
                                     ->required(),
                                 Forms\Components\TextInput::make('name')
+                                    ->label('Nama')
                                     ->required(),
                                 Forms\Components\Textarea::make('description')
+                                    ->label('Deskripsi')
                                     ->rows(3),
                             ])
                             ->columns(1)
                             ->defaultItems(2),
                     ]),
 
-                Forms\Components\Section::make('Background Images')
+                Forms\Components\Section::make('Gambar Latar Belakang')
                     ->schema([
                         Forms\Components\Repeater::make('backgrounds')
                             ->relationship()
                             ->schema([
                                 Forms\Components\FileUpload::make('image_path')
+                                    ->label('Gambar')
                                     ->image()
                                     ->disk('public')
                                     ->directory('category-backgrounds')
@@ -68,8 +84,10 @@ class CategoryResource extends Resource
                                     ->maxSize(5120)
                                     ->required(),
                                 Forms\Components\Toggle::make('is_active')
+                                    ->label('Aktif')
                                     ->default(true),
                                 Forms\Components\TextInput::make('order')
+                                    ->label('Urutan')
                                     ->numeric()
                                     ->default(0),
                             ])
@@ -83,20 +101,23 @@ class CategoryResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('slug')
+                    ->label('Slug')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('translations.name')
-                    ->label('Name')
+                    ->label('Nama')
                     ->searchable(),
                 Tables\Columns\IconColumn::make('is_active')
+                    ->label('Aktif')
                     ->boolean(),
                 Tables\Columns\TextColumn::make('order')
+                    ->label('Urutan')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('backgrounds_count')
                     ->counts('backgrounds')
-                    ->label('Backgrounds'),
+                    ->label('Jumlah Background'),
                 Tables\Columns\TextColumn::make('packages_count')
                     ->counts('packages')
-                    ->label('Packages'),
+                    ->label('Jumlah Paket'),
             ])
             ->filters([
                 //

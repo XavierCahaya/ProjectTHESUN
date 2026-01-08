@@ -19,82 +19,128 @@ class PackageResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    protected static ?string $navigationLabel = 'Paket Wisata';
+
+    protected static ?string $modelLabel = 'Paket';
+
+    protected static ?string $pluralModelLabel = 'Paket Wisata';
+    protected static ?string $navigationGroup = 'Paket';
+    protected static ?int $navigationSort = 0;
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\Section::make('Basic Information')
+                Forms\Components\Section::make('Informasi Dasar')
                     ->schema([
-                        Forms\Components\Select::make('category_id')
-                            ->relationship('category', 'slug')
-                            ->required(),
                         Forms\Components\FileUpload::make('thumbnail')
+                            ->label('Thumbnail')
                             ->image()
                             ->disk('public')
                             ->directory('package-thumbnails')
                             ->visibility('public')
                             ->imageResizeMode('cover')
-                            ->imageCropAspectRatio('16:9')
-                            ->imageResizeTargetWidth('1920')
-                            ->imageResizeTargetHeight('1080')
+                            ->imageCropAspectRatio('3:4')
+                            ->imageResizeTargetWidth('1080')
+                            ->imageResizeTargetHeight('1440')
                             ->maxSize(5120)
-                            ->required(),
-                        Forms\Components\TextInput::make('price')
-                            ->numeric()
-                            ->prefix('Rp'),
-                        Forms\Components\TextInput::make('duration_days')
-                            ->numeric()
-                            ->suffix('days'),
-                        Forms\Components\TextInput::make('duration_nights')
-                            ->numeric()
-                            ->suffix('nights'),
-                        Forms\Components\Toggle::make('is_featured')
-                            ->default(false),
-                        Forms\Components\Toggle::make('is_active')
-                            ->default(true),
-                        Forms\Components\TextInput::make('order')
-                            ->numeric()
-                            ->default(0),
-                    ])
-                    ->columns(2),
+                            ->required()
+                            ->columnSpan(3),
 
-                Forms\Components\Section::make('Indonesian Translation')
+                        Forms\Components\Grid::make(4)
+                            ->schema([
+                                Forms\Components\Select::make('category_id')
+                                    ->label('Kategori')
+                                    ->relationship('category', 'slug')
+                                    ->required()
+                                    ->columnSpan(4),
+
+                                Forms\Components\TextInput::make('price')
+                                    ->label('Harga')
+                                    ->numeric()
+                                    ->prefix('Rp')
+                                    ->columnSpan(2),
+
+                                Forms\Components\TextInput::make('order')
+                                    ->label('Urutan')
+                                    ->numeric()
+                                    ->default(0)
+                                    ->columnSpan(2),
+
+                                Forms\Components\TextInput::make('duration_days')
+                                    ->label('Durasi (Hari)')
+                                    ->numeric()
+                                    ->suffix('hari')
+                                    ->columnSpan(1),
+
+                                Forms\Components\TextInput::make('duration_nights')
+                                    ->label('Durasi (Malam)')
+                                    ->numeric()
+                                    ->suffix('malam')
+                                    ->columnSpan(1),
+
+                                Forms\Components\Grid::make(1)
+                                    ->schema([
+                                        Forms\Components\Toggle::make('is_featured')
+                                            ->label('Unggulan')
+                                            ->default(false)
+                                            ->inline(false),
+                                    ])
+                                    ->extraAttributes(['class' => 'flex items-center justify-center'])
+                                    ->columnSpan(1),
+
+                                Forms\Components\Grid::make(1)
+                                    ->schema([
+                                        Forms\Components\Toggle::make('is_active')
+                                            ->label('Aktif')
+                                            ->default(true)
+                                            ->inline(false),
+                                    ])
+                                    ->extraAttributes(['class' => 'flex items-center justify-center'])
+                                    ->columnSpan(1),
+                            ])
+                            ->columnSpan(9),
+                    ])
+                    ->columns(12),
+
+                Forms\Components\Section::make('Terjemahan Indonesia')
                     ->schema([
                         Forms\Components\TextInput::make('id_title')
-                            ->label('Title (Indonesian)')
+                            ->label('Judul')
                             ->required()
                             ->maxLength(255),
                         Forms\Components\Textarea::make('id_description')
-                            ->label('Description (Indonesian)')
+                            ->label('Deskripsi')
                             ->rows(3),
                         Forms\Components\RichEditor::make('id_itinerary')
-                            ->label('Itinerary (Indonesian)'),
+                            ->label('Catatan'),
                         Forms\Components\Textarea::make('id_terms_conditions')
-                            ->label('Terms & Conditions (Indonesian)')
+                            ->label('Syarat & Ketentuan')
                             ->rows(3),
                     ])
                     ->columns(1),
 
-                Forms\Components\Section::make('English Translation')
+                Forms\Components\Section::make('Terjemahan Inggris')
                     ->schema([
                         Forms\Components\TextInput::make('en_title')
-                            ->label('Title (English)')
+                            ->label('Judul')
                             ->required()
                             ->maxLength(255),
                         Forms\Components\Textarea::make('en_description')
-                            ->label('Description (English)')
+                            ->label('Deskripsi')
                             ->rows(3),
                         Forms\Components\RichEditor::make('en_itinerary')
-                            ->label('Itinerary (English)'),
+                            ->label('Catatan'),
                         Forms\Components\Textarea::make('en_terms_conditions')
-                            ->label('Terms & Conditions (English)')
+                            ->label('Syarat & Ketentuan')
                             ->rows(3),
                     ])
                     ->columns(1),
 
-                Forms\Components\Section::make('Services')
+                Forms\Components\Section::make('Layanan')
                     ->schema([
                         Forms\Components\CheckboxList::make('services')
+                            ->label('Pilih Layanan')
                             ->relationship('services', 'slug')
                             ->options(function () {
                                 return \App\Models\Service::with('translations')
@@ -113,6 +159,7 @@ class PackageResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\ImageColumn::make('thumbnail')
+                    ->label('Thumbnail')
                     ->getStateUsing(fn($record) => str_starts_with($record->thumbnail, 'image/')
                         ? asset($record->thumbnail)
                         : asset('storage/' . $record->thumbnail))
@@ -120,19 +167,24 @@ class PackageResource extends Resource
                         ? asset($record->thumbnail)
                         : asset('storage/' . $record->thumbnail)),
                 Tables\Columns\TextColumn::make('translations.title')
-                    ->label('Title')
+                    ->label('Judul')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('category.slug')
+                    ->label('Kategori')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('price')
+                    ->label('Harga')
                     ->money('IDR')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('duration_days')
-                    ->suffix('D')
+                    ->label('Durasi')
+                    ->suffix('H')
                     ->sortable(),
                 Tables\Columns\IconColumn::make('is_featured')
+                    ->label('Unggulan')
                     ->boolean(),
                 Tables\Columns\IconColumn::make('is_active')
+                    ->label('Aktif')
                     ->boolean(),
             ])
             ->filters([
