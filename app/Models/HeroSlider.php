@@ -48,5 +48,15 @@ class HeroSlider extends Model
         static::addGlobalScope('order', function ($builder) {
             $builder->orderBy('order', 'asc');
         });
+
+        // Ensure only one featured slider at a time
+        static::saving(function ($heroSlider) {
+            if ($heroSlider->is_featured) {
+                // Nonaktifkan semua featured slider kecuali yang sedang disimpan
+                static::where('is_featured', true)
+                    ->where('id', '!=', $heroSlider->id ?? 0)
+                    ->update(['is_featured' => false]);
+            }
+        });
     }
 }
