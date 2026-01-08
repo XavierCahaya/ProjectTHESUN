@@ -84,6 +84,7 @@ class PackageResource extends Resource
                                         Forms\Components\Toggle::make('is_featured')
                                             ->label('Unggulan')
                                             ->default(false)
+                                            ->helperText('Hanya 4 gambar yang harus unggulan')
                                             ->inline(false),
                                     ])
                                     ->extraAttributes(['class' => 'flex items-center justify-center'])
@@ -114,9 +115,9 @@ class PackageResource extends Resource
                             ->rows(3),
                         Forms\Components\RichEditor::make('id_itinerary')
                             ->label('Catatan'),
-                        Forms\Components\Textarea::make('id_terms_conditions')
-                            ->label('Syarat & Ketentuan')
-                            ->rows(3),
+                        Forms\Components\RichEditor::make('id_terms_conditions')
+                            ->label('Syarat & Ketentuan'),
+                        // ->rows(3),
                     ])
                     ->columns(1),
 
@@ -131,9 +132,9 @@ class PackageResource extends Resource
                             ->rows(3),
                         Forms\Components\RichEditor::make('en_itinerary')
                             ->label('Catatan'),
-                        Forms\Components\Textarea::make('en_terms_conditions')
+                        Forms\Components\RichEditor::make('en_terms_conditions')
                             ->label('Syarat & Ketentuan')
-                            ->rows(3),
+                        // ->rows(3),
                     ])
                     ->columns(1),
 
@@ -146,7 +147,7 @@ class PackageResource extends Resource
                                 return \App\Models\Service::with('translations')
                                     ->get()
                                     ->mapWithKeys(fn($service) => [
-                                        $service->id => $service->translate(app()->getLocale())['name'] ?? $service->slug
+                                        $service->id => $service->slug
                                     ]);
                             }),
                     ])

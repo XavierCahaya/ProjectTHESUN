@@ -32,7 +32,7 @@ class CategoryResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('slug')
-                    ->label('Slug')
+                    ->label('Nama')
                     ->required()
                     ->unique(ignoreRecord: true)
                     ->maxLength(255),
@@ -47,28 +47,33 @@ class CategoryResource extends Resource
                     ->numeric()
                     ->default(0),
 
-                Forms\Components\Section::make('Terjemahan')
+                Forms\Components\Section::make('Terjemahan Indonesia')
                     ->schema([
-                        Forms\Components\Repeater::make('translations')
-                            ->relationship()
-                            ->schema([
-                                Forms\Components\Select::make('locale')
-                                    ->label('Bahasa')
-                                    ->options([
-                                        'id' => 'Indonesia',
-                                        'en' => 'Inggris',
-                                    ])
-                                    ->required(),
-                                Forms\Components\TextInput::make('name')
-                                    ->label('Nama')
-                                    ->required(),
-                                Forms\Components\Textarea::make('description')
-                                    ->label('Deskripsi')
-                                    ->rows(3),
-                            ])
-                            ->columns(1)
-                            ->defaultItems(2),
-                    ]),
+                        Forms\Components\Hidden::make('translations.id.locale')
+                            ->default('id'),
+                        Forms\Components\TextInput::make('translations.id.name')
+                            ->label('Nama (Indonesia)')
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\Textarea::make('translations.id.description')
+                            ->label('Deskripsi (Indonesia)')
+                            ->rows(3),
+                    ])
+                    ->columns(1),
+
+                Forms\Components\Section::make('Terjemahan Inggris')
+                    ->schema([
+                        Forms\Components\Hidden::make('translations.en.locale')
+                            ->default('en'),
+                        Forms\Components\TextInput::make('translations.en.name')
+                            ->label('Name (English)')
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\Textarea::make('translations.en.description')
+                            ->label('Description (English)')
+                            ->rows(3),
+                    ])
+                    ->columns(1),
 
                 Forms\Components\Section::make('Gambar Latar Belakang')
                     ->schema([
@@ -101,10 +106,10 @@ class CategoryResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('slug')
-                    ->label('Slug')
+                    ->label('Nama')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('translations.name')
-                    ->label('Nama')
+                    ->label('Terjemahan')
                     ->searchable(),
                 Tables\Columns\IconColumn::make('is_active')
                     ->label('Aktif')

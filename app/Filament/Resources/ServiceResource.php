@@ -32,36 +32,41 @@ class ServiceResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('slug')
-                    ->label('Slug')
+                    ->label('Nama layanan')
                     ->required()
                     ->unique(ignoreRecord: true)
                     ->maxLength(255),
-                Forms\Components\TextInput::make('icon')
-                    ->label('Ikon')
-                    ->maxLength(255),
+                // ->columnspan(2),
+                Forms\Components\Hidden::make('icon')
+                    ->default('heroicon-o-cog'),
+
+
                 Forms\Components\Toggle::make('is_active')
                     ->label('Aktif')
+                    ->inline(false)
                     ->default(true),
 
-                Forms\Components\Section::make('Terjemahan')
+                Forms\Components\Section::make('Terjemahan Indonesia')
                     ->schema([
-                        Forms\Components\Repeater::make('translations')
-                            ->relationship()
-                            ->schema([
-                                Forms\Components\Select::make('locale')
-                                    ->label('Bahasa')
-                                    ->options([
-                                        'id' => 'Indonesia',
-                                        'en' => 'Inggris',
-                                    ])
-                                    ->required(),
-                                Forms\Components\TextInput::make('name')
-                                    ->label('Nama')
-                                    ->required(),
-                            ])
-                            ->columns(2)
-                            ->defaultItems(2),
-                    ]),
+                        Forms\Components\Hidden::make('translations.id.locale')
+                            ->default('id'),
+                        Forms\Components\TextInput::make('translations.id.name')
+                            ->label('Nama (Indonesia)')
+                            ->required()
+                            ->maxLength(255),
+                    ])
+                    ->columns(1),
+
+                Forms\Components\Section::make('Terjemahan Inggris')
+                    ->schema([
+                        Forms\Components\Hidden::make('translations.en.locale')
+                            ->default('en'),
+                        Forms\Components\TextInput::make('translations.en.name')
+                            ->label('Name (English)')
+                            ->required()
+                            ->maxLength(255),
+                    ])
+                    ->columns(1),
             ]);
     }
 
@@ -70,10 +75,10 @@ class ServiceResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('slug')
-                    ->label('Slug')
+                    ->label('Nama')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('translations.name')
-                    ->label('Nama')
+                    ->label('Terjemahan')
                     ->searchable(),
                 Tables\Columns\IconColumn::make('is_active')
                     ->label('Aktif')

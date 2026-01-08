@@ -51,6 +51,7 @@ class GalleryImageResource extends Resource
                     ->label('Aktif')
                     ->default(true),
 
+
                 Forms\Components\TextInput::make('order')
                     ->label('Urutan')
                     ->numeric()

@@ -87,16 +87,30 @@
             font-style: italic;
         }
 
-        .rich-content h1, .rich-content h2, .rich-content h3, .rich-content h4 {
+        .rich-content h1,
+        .rich-content h2,
+        .rich-content h3,
+        .rich-content h4 {
             font-weight: 600;
             margin-top: 1rem;
             margin-bottom: 0.5rem;
         }
 
-        .rich-content h1 { font-size: 1.5rem; }
-        .rich-content h2 { font-size: 1.25rem; }
-        .rich-content h3 { font-size: 1.125rem; }
-        .rich-content h4 { font-size: 1rem; }
+        .rich-content h1 {
+            font-size: 1.5rem;
+        }
+
+        .rich-content h2 {
+            font-size: 1.25rem;
+        }
+
+        .rich-content h3 {
+            font-size: 1.125rem;
+        }
+
+        .rich-content h4 {
+            font-size: 1rem;
+        }
     </style>
 
     <div class="flex justify-center relative overflow-hidden p-2">
@@ -176,9 +190,10 @@
                             $packageTranslation = $package->translations->first();
                         @endphp
 
-                        <div class="fade flex gap-6 rounded-xl p-6 shadow-lg border border-gray-200 bg-white">
+                        <div
+                            class="fade flex gap-6 rounded-xl p-6 shadow-[0_-15px_30px_-10px_rgba(0,0,0,0.1)] border border-gray-300 border-b-4 border-b-amber-400 bg-white">
                             <!-- Package Image -->
-                            <img class="rounded-lg object-cover w-[375px] h-full mb-4 cursor-pointer hover:opacity-90 transition"
+                            <img class="rounded-lg object-cover w-[375px] h-full mb-4 cursor-pointer hover:opacity-90 transition border-1 border-gray-300   "
                                 onclick="openPopup(this.src)"
                                 src="{{ str_starts_with($package->thumbnail, 'image/') ? asset($package->thumbnail) : asset('storage/' . $package->thumbnail) }}"
                                 alt="{{ $packageTranslation->title ?? 'Package' }}">
@@ -217,12 +232,14 @@
                                 @if($packageTranslation && $packageTranslation->itinerary)
                                     <div class="border-t pt-3">
                                         <h6 class="font-semibold text-gray-900 mb-2 flex items-center">
-                                            <svg class="w-5 h-5 mr-2 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                                            <svg class="w-5 h-5 mr-2 text-amber-600" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                                             </svg>
-                                            {{ $locale === 'id' ? 'Itinerary' : 'Itinerary' }}
+                                            {{ $locale === 'id' ? 'Catatan' : 'Notes' }}
                                         </h6>
-                                        <div class="text-gray-600 text-sm prose prose-sm max-w-none">
+                                        <div class="text-gray-600 text-sm rich-content">
                                             {!! $packageTranslation->itinerary !!}
                                         </div>
                                     </div>
@@ -232,8 +249,10 @@
                                 @if($package->services && $package->services->count() > 0)
                                     <div class="border-t pt-3">
                                         <h6 class="font-semibold text-gray-900 mb-2 flex items-center">
-                                            <svg class="w-5 h-5 mr-2 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                            <svg class="w-5 h-5 mr-2 text-green-600" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                                             </svg>
                                             {{ $locale === 'id' ? 'Layanan Termasuk' : 'Services Included' }}
                                         </h6>
@@ -244,7 +263,9 @@
                                                 @endphp
                                                 <div class="flex items-center text-sm text-gray-700">
                                                     <svg class="w-4 h-4 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                                        <path fill-rule="evenodd"
+                                                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                                            clip-rule="evenodd" />
                                                     </svg>
                                                     {{ $serviceTranslation->name ?? $service->slug }}
                                                 </div>
@@ -257,12 +278,14 @@
                                 @if($packageTranslation && $packageTranslation->terms_conditions)
                                     <div class="border-t pt-3">
                                         <h6 class="font-semibold text-gray-900 mb-2 flex items-center">
-                                            <svg class="w-5 h-5 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                            <svg class="w-5 h-5 mr-2 text-blue-600" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                             </svg>
                                             {{ $locale === 'id' ? 'Syarat & Ketentuan' : 'Terms & Conditions' }}
                                         </h6>
-                                        <div class="text-gray-600 text-xs">
+                                        <div class="text-gray-600 text-sm rich-content">
                                             {!! $packageTranslation->terms_conditions !!}
                                         </div>
                                     </div>
